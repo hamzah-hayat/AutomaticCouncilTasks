@@ -2,11 +2,11 @@
 # When choosing a new County, go in order of the following:
 # 1. Liege Capital
 # 2. Liege realm
-# 3. Direct Vassals
-# 4. Sub-vassals
+# 3. Direct Vassals Capitals
+# 4. Sub-vassals Capitals
 # 5. Any remaining counties.
 
-# When choosing a county, order based on highest possible tax income (higher tax income counties are picked first)
+# When choosing a county, order based on highest control (highest control are picked first)
 
 act_marshal_automatic_task_increase_control = {
 
@@ -24,16 +24,23 @@ act_marshal_automatic_task_increase_control = {
 
 		# 2. Liege realm
 		if = {
-			limit = {NOT = { exists = scope:target_county } }
+			limit = { NOT = { exists = scope:target_county } }
 			ordered_directly_owned_province = {
-				limit = { act_is_potential_county_for_increase_control = yes }
-				order_by = monthly_income
-				position = 1
-				save_scope_as = target_county
+				limit = {
+					county = {
+						act_is_potential_county_for_increase_control = yes
+					}
+				}
+				order_by = control
+				position = 0
+
+				county = {
+					save_scope_as = target_county
+				}
 			}
 		}
 
-		# 3. Direct Vassals
+		# 3. Direct Vassals Capitals
 		if = {
 			limit = {NOT = { exists = scope:target_county } }
 			every_vassal = {
@@ -58,13 +65,13 @@ act_marshal_automatic_task_increase_control = {
 			}
 			ordered_in_list = {
 				list = possible_counties
-				order_by = monthly_income
-				position = 1
+				order_by = control
+				position = 0
 				save_scope_as = target_county
 			}
 		}
 
-		# 4. Sub-vassals
+		# 4. Sub-vassal Capitals
 		if = {
 			limit = { NOT = { exists = scope:target_county } }
 			every_vassal_or_below = {
@@ -84,8 +91,8 @@ act_marshal_automatic_task_increase_control = {
 			}
 			ordered_in_list = {
 				list = possible_counties
-				order_by = monthly_income
-				position = 1
+				order_by = control
+				position = 0
 				save_scope_as = target_county
 			}
 		}
@@ -94,19 +101,19 @@ act_marshal_automatic_task_increase_control = {
 		if = {
 			limit = { NOT = { exists = scope:target_county } }
 			ordered_sub_realm_county = {
-				order_by = monthly_income
-				position = 1
+				order_by = control
+				position = 0
 				save_scope_as = target_county
 			}
 		}
-	}
 
-	if = {
-		limit = { exists = scope:county }
-		scope:councillor = {
-			set_council_task = {
-				task_type = task_increase_control
-				target = scope:county
+		if = {
+			limit = { exists = scope:target_county }
+			cp:councillor_marshal = {
+				set_council_task = {
+					task_type = task_increase_control
+					target = scope:target_county.title_province
+				}
 			}
 		}
 	}

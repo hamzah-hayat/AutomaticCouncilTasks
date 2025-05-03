@@ -262,11 +262,6 @@
 		}
 	}
 
-    on_cancel_task_county = {
-		# ACT - try and automatically start a new task
-		act_marshal_automatic_task_increase_control = yes
-	}
-
 	on_finish_task_county = {
 		if = {
 			limit = {
@@ -278,6 +273,9 @@
 				marshal_remove_random_county_corruption_modifier_effect = yes
 				change_county_control = -25
 			}
+		} else = {
+			# ACT - try and automatically start a new task
+			act_marshal_automatic_task_increase_control = yes
 		}
 	}
 

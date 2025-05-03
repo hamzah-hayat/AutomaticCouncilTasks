@@ -1,4 +1,4 @@
-# Same as potential_county trigger in task_increase_control for marshal
+﻿# Same as potential_county trigger in task_increase_control for marshal
 act_is_potential_county_for_increase_control = {
 	OR = {
 		has_county_corruption_trigger = yes
