@@ -1,0 +1,77 @@
+act_is_potential_county_for_conversion = {
+	NOT = { faith = scope:councillor.faith }
+	trigger_if = {
+		limit = {
+			scope:councillor_liege = {
+				is_alive = yes
+				has_variable = hold_court_8120_religion_block
+			}
+		}
+		custom_tooltip = {
+			text = hold_court_8120_conversion_tt
+			NOT = { faith = scope:councillor_liege.var:hold_court_8120_religion_block }
+		}
+	}
+	custom_description = {
+		text = "is_protected_via_contract_self_or_liege"
+		subject = holder
+		NAND = { # Vassal Contract forbids meddling by liege
+			exists = holder.liege
+			holder = {
+				OR = {
+					AND = {
+						liege = scope:councillor_liege
+						is_ruler = yes
+						is_independent_ruler = no
+						vassal_contract_has_flag = religiously_protected
+					}
+					any_liege_or_above = {
+						exists = liege
+						liege = scope:councillor_liege
+						is_ruler = yes
+						is_independent_ruler = no
+						vassal_contract_has_flag = religiously_protected
+					}
+				}
+			}
+		}
+	}
+	trigger_if = {
+		limit = {	
+			AND = {
+				has_variable = cannot_be_converted_by_value
+				var:cannot_be_converted_by_value = scope:councillor_liege		
+			}
+		}
+		custom_tooltip = {
+			text = promised_to_not_convert_county	
+			NOR = {
+				has_variable = cannot_be_converted_by_value
+				var:cannot_be_converted_by_value = scope:councillor_liege	
+			}
+		}
+	}
+	# Struggle phases may sometimes restrict targets for involved characters.
+	trigger_if = {
+		# Give an exception for pre-existing conversions: these can take a while and it's not fair to lose years or decades of progress to a phase change.
+		limit = {
+			NOT = {
+				scope:county = { is_target_of_council_task = task_conversion }
+			}
+		}
+		NOT = {
+			scope:councillor_liege = {
+				custom_tooltip = {
+					text = task_conversion.tt.forbidden.due_to_struggle_phase
+					any_character_struggle = {
+						involvement = involved
+						is_struggle_parameter_active_secondary_county_trigger = {
+							PARAMETER = county_conversion_disabled_for_involved_faiths_within_region
+							COUNTY = scope:county
+						}
+					}
+				}
+			}
+		}
+	}
+}

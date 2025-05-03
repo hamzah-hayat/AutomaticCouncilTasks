@@ -1,0 +1,13 @@
+﻿# Same as potential_county trigger in task_promote_culture for steward
+act_is_potential_county_for_promote_culture = {
+	NOT = { culture = scope:councillor_liege.culture }
+	trigger_if = {
+		limit = {
+			scope:councillor_liege = { has_variable = hold_court_8130_culture_block }
+		}
+		custom_tooltip = {
+			text = hold_court_8130_conversion_tt
+			NOT = { culture = scope:councillor_liege.var:hold_court_8130_culture_block }
+		}
+	}
+}

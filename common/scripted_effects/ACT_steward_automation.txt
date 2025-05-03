@@ -1,4 +1,4 @@
-﻿# Increase control in county Marshal task
+﻿# Promote Culture in county Steward task
 # When choosing a new County, go in order of the following:
 # 1. Liege Capital
 # 2. Liege realm
@@ -6,16 +6,16 @@
 # 4. Sub-vassals Capitals
 # 5. Any remaining counties.
 
-# When choosing a county, order based on highest control (highest control are picked first)
+# When choosing a county, order based on county opinion (lowest opinion are picked first)
 
-act_marshal_automatic_task_increase_control = {
+act_steward_automatic_task_promote_culture = {
 
 	scope:councillor_liege = {
 
 		# 1. Liege Capital
 		if = {
 			limit = {
-				capital_county = { act_is_potential_county_for_increase_control = yes }
+				capital_county = { act_is_potential_county_for_promote_culture = yes }
 			}
 			capital_county = {
 				save_scope_as = target_county
@@ -27,7 +27,7 @@ act_marshal_automatic_task_increase_control = {
 			limit = { NOT = { exists = scope:target_county } }
 			ordered_directly_owned_province = {
 				limit = {
-					county = { act_is_potential_county_for_increase_control = yes }
+					county = { act_is_potential_county_for_promote_culture = yes }
 				}
 				order_by = control
 				position = 0
@@ -44,17 +44,17 @@ act_marshal_automatic_task_increase_control = {
 			every_vassal = {
 				limit = {
 					exists = capital_county
-					capital_county = { act_is_potential_county_for_increase_control = yes }
+					capital_county = { act_is_potential_county_for_promote_culture = yes }
 					highest_held_title_tier = tier_kingdom
 				}
 				alternative_limit = {
 					exists = capital_county
-					capital_county = { act_is_potential_county_for_increase_control = yes }
+					capital_county = { act_is_potential_county_for_promote_culture = yes }
 					highest_held_title_tier = tier_duchy
 				}
 				alternative_limit = {
 					exists = capital_county
-					capital_county = { act_is_potential_county_for_increase_control = yes }
+					capital_county = { act_is_potential_county_for_promote_culture = yes }
 					highest_held_title_tier = tier_county
 				}
 				capital_county = {
@@ -75,12 +75,12 @@ act_marshal_automatic_task_increase_control = {
 			every_vassal_or_below = {
 				alternative_limit = {
 					exists = capital_county
-					capital_county = { act_is_potential_county_for_increase_control = yes }
+					capital_county = { act_is_potential_county_for_promote_culture = yes }
 					highest_held_title_tier = tier_duchy
 				}
 				alternative_limit = {
 					exists = capital_county
-					capital_county = { act_is_potential_county_for_increase_control = yes }
+					capital_county = { act_is_potential_county_for_promote_culture = yes }
 					highest_held_title_tier = tier_county
 				}
 				capital_county = {
@@ -107,9 +107,9 @@ act_marshal_automatic_task_increase_control = {
 
 		if = {
 			limit = { exists = scope:target_county }
-			cp:councillor_marshal = {
+			cp:councillor_steward = {
 				set_council_task = {
-					task_type = task_increase_control
+					task_type = task_promote_culture
 					target = scope:target_county.title_province
 				}
 			}

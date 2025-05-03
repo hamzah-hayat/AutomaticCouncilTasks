@@ -273,7 +273,11 @@
 				marshal_remove_random_county_corruption_modifier_effect = yes
 				change_county_control = -25
 			}
-		} else = {
+		} 
+		else_if = {
+			limit = {
+				scope:councillor_liege = { is_ai = no }
+			}
 			# ACT - try and automatically start a new task
 			act_marshal_automatic_task_increase_control = yes
 		}
