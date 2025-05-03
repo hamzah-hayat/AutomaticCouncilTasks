@@ -107,7 +107,7 @@ act_marshal_automatic_task_increase_control = {
 
 		if = {
 			limit = { exists = scope:target_county }
-			cp:councillor_marshal = {
+			scope:councillor = {
 				set_council_task = {
 					task_type = task_increase_control
 					target = scope:target_county.title_province

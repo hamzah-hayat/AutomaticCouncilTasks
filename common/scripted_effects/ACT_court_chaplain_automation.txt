@@ -105,7 +105,7 @@ act_chaplain_automatic_task_conversion = {
 
 		if = {
 			limit = { exists = scope:target_county }
-			cp:councillor_court_chaplain = {
+			scope:councillor = {
 				set_council_task = {
 					task_type = task_conversion
 					target = scope:target_county.title_province

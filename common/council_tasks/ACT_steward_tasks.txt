@@ -551,15 +551,19 @@
 		# ACT - try and automatically promote culture in new county
 		if = {
 			limit = {
-				scope:councillor_liege = { is_ai = no }
-				any_sub_realm_county = {
-					act_is_potential_county_for_promote_culture = yes
+				scope:councillor_liege = { 
+					is_ai = no
+					any_sub_realm_county = {
+						act_is_potential_county_for_promote_culture = yes
+					}
 				}
 			}
 			act_steward_automatic_task_promote_culture = yes
 		}
-		scope:councillor = {
-			start_default_task = yes
+		else = {
+			scope:councillor = {
+				start_default_task = yes
+			}
 		}
 	}
 

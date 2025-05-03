@@ -276,7 +276,12 @@
 		} 
 		else_if = {
 			limit = {
-				scope:councillor_liege = { is_ai = no }
+				scope:councillor_liege = { 
+					is_ai = no
+					any_sub_realm_county = {
+						act_is_potential_county_for_increase_control = yes
+					}
+				}
 			}
 			# ACT - try and automatically start a new task
 			act_marshal_automatic_task_increase_control = yes

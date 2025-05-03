@@ -29,7 +29,7 @@ act_steward_automatic_task_promote_culture = {
 				limit = {
 					county = { act_is_potential_county_for_promote_culture = yes }
 				}
-				order_by = control
+				order_by = county_opinion
 				position = 0
 
 				county = {
@@ -63,7 +63,7 @@ act_steward_automatic_task_promote_culture = {
 			}
 			ordered_in_list = {
 				list = possible_counties
-				order_by = control
+				order_by = county_opinion
 				position = 0
 				save_scope_as = target_county
 			}
@@ -89,7 +89,7 @@ act_steward_automatic_task_promote_culture = {
 			}
 			ordered_in_list = {
 				list = possible_counties
-				order_by = control
+				order_by = county_opinion
 				position = 0
 				save_scope_as = target_county
 			}
@@ -99,7 +99,7 @@ act_steward_automatic_task_promote_culture = {
 		if = {
 			limit = { NOT = { exists = scope:target_county } }
 			ordered_sub_realm_county = {
-				order_by = control
+				order_by = county_opinion
 				position = 0
 				save_scope_as = target_county
 			}
