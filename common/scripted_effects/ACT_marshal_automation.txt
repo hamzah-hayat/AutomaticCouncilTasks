@@ -1,0 +1,113 @@
+﻿# Increase control in county Marshal task
+# When choosing a new County, go in order of the following:
+# 1. Liege Capital
+# 2. Liege realm
+# 3. Direct Vassals
+# 4. Sub-vassals
+# 5. Any remaining counties.
+
+# When choosing a county, order based on highest possible tax income (higher tax income counties are picked first)
+
+act_marshal_automatic_task_increase_control = {
+
+	scope:councillor_liege = {
+
+		# 1. Liege Capital
+		if = {
+			limit = {
+				capital_county = { act_is_potential_county_for_increase_control = yes }
+			}
+			capital_county = {
+				save_scope_as = target_county
+			}
+		}
+
+		# 2. Liege realm
+		if = {
+			limit = {NOT = { exists = scope:target_county } }
+			ordered_directly_owned_province = {
+				limit = { act_is_potential_county_for_increase_control = yes }
+				order_by = monthly_income
+				position = 1
+				save_scope_as = target_county
+			}
+		}
+
+		# 3. Direct Vassals
+		if = {
+			limit = {NOT = { exists = scope:target_county } }
+			every_vassal = {
+				limit = {
+					exists = capital_county
+					capital_county = { act_is_potential_county_for_increase_control = yes }
+					highest_held_title_tier = tier_kingdom
+				}
+				alternative_limit = {
+					exists = capital_county
+					capital_county = { act_is_potential_county_for_increase_control = yes }
+					highest_held_title_tier = tier_duchy
+				}
+				alternative_limit = {
+					exists = capital_county
+					capital_county = { act_is_potential_county_for_increase_control = yes }
+					highest_held_title_tier = tier_county
+				}
+				capital_county = {
+					add_to_temporary_list = possible_counties
+				}
+			}
+			ordered_in_list = {
+				list = possible_counties
+				order_by = monthly_income
+				position = 1
+				save_scope_as = target_county
+			}
+		}
+
+		# 4. Sub-vassals
+		if = {
+			limit = { NOT = { exists = scope:target_county } }
+			every_vassal_or_below = {
+				alternative_limit = {
+					exists = capital_county
+					capital_county = { act_is_potential_county_for_increase_control = yes }
+					highest_held_title_tier = tier_duchy
+				}
+				alternative_limit = {
+					exists = capital_county
+					capital_county = { act_is_potential_county_for_increase_control = yes }
+					highest_held_title_tier = tier_county
+				}
+				capital_county = {
+					add_to_temporary_list = possible_counties
+				}
+			}
+			ordered_in_list = {
+				list = possible_counties
+				order_by = monthly_income
+				position = 1
+				save_scope_as = target_county
+			}
+		}
+
+		# 5. Any remaining counties.
+		if = {
+			limit = { NOT = { exists = scope:target_county } }
+			ordered_sub_realm_county = {
+				order_by = monthly_income
+				position = 1
+				save_scope_as = target_county
+			}
+		}
+	}
+
+	if = {
+		limit = { exists = scope:county }
+		scope:councillor = {
+			set_council_task = {
+				task_type = task_increase_control
+				target = scope:county
+			}
+		}
+	}
+}

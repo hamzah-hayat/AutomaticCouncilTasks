@@ -1,0 +1,11 @@
+# Same as potential_county trigger in task_increase_control for marshal
+act_is_potential_county_for_increase_control = {
+	OR = {
+		has_county_corruption_trigger = yes
+		county_control < full_county_control
+	}
+    
+    # If the growth factor is 0, no amount of trying to control helps
+    # (happens when the county is under siege/occupied most likely)
+    monthly_county_control_growth_factor > 0
+}
