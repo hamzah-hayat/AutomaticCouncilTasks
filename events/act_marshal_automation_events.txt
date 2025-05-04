@@ -1,0 +1,9 @@
+﻿namespace = act_marshal_automation
+
+act_marshal_automation.0001 = {
+	hidden = yes
+
+	immediate = {
+		act_marshal_automatic_task_increase_control_start = yes
+	}
+}

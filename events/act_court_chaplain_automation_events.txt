@@ -1,0 +1,9 @@
+﻿namespace = act_court_chaplain_automation
+
+act_court_chaplain_automation.0001 = {
+	hidden = yes
+
+	immediate = {
+		act_court_chaplain_automatic_task_conversion_start = yes
+	}
+}

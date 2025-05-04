@@ -672,6 +672,19 @@
 			id = court_chaplain_task.8001
 			days = 1 # To ensure it does not fire at the same time as the finish message (both cancel and finish are fired on_finish_task_county)
 		}
+
+		if = {
+			limit = {
+				scope:councillor_liege = { 
+					is_ai = no
+					any_sub_realm_county = {
+						act_is_potential_county_for_conversion = yes
+					}
+				}
+			}
+			# ACT - try and automatically start a new task
+			act_court_chaplain_automatic_task_conversion = yes
+		}
 	}
 
 	on_finish_task_county = {
@@ -700,32 +713,14 @@
 		scope:county = {
 			set_county_faith = scope:councillor.faith
 		}
-
 		if = {
 			limit = {
 				scope:councillor = {
 					has_council_position = councillor_court_chaplain
 				}
 			}
-
-			# ACT - try and automatically convert a new county
-			if = {
-				limit = {
-					scope:councillor_liege = { 
-						is_ai = no
-						any_sub_realm_county = {
-							act_is_potential_county_for_conversion = yes
-						}
-					}					
-				}
-				debug_log = "priest automatic"
-				act_chaplain_automatic_task_conversion = yes
-			}
-			else = {
-				debug_log = "priest default"
-				scope:councillor = {
-					start_default_task = yes
-				}
+			scope:councillor = {
+				start_default_task = yes
 			}
 		}
 

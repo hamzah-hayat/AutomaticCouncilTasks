@@ -1,0 +1,9 @@
+﻿namespace = act_steward_automation
+
+act_steward_automation.0001 = {
+	hidden = yes
+
+	immediate = {
+		act_steward_automatic_task_promote_culture_start = yes
+	}
+}

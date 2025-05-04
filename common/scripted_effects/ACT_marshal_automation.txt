@@ -108,11 +108,16 @@ act_marshal_automatic_task_increase_control = {
 		if = {
 			limit = { exists = scope:target_county }
 			scope:councillor = {
-				set_council_task = {
-					task_type = task_increase_control
-					target = scope:target_county.title_province
-				}
+				# Have to use an event because setting a new task in the cancel task crashes the game, bruh
+				trigger_event = act_marshal_automation.0001
 			}
 		}
+	}
+}
+
+act_marshal_automatic_task_increase_control_start = {
+	set_council_task = {
+		task_type = task_increase_control
+		target = scope:target_county.title_province
 	}
 }

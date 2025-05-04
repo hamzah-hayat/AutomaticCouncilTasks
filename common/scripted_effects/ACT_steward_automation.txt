@@ -6,7 +6,7 @@
 # 4. Sub-vassals Capitals
 # 5. Any remaining counties.
 
-# When choosing a county, order based on county opinion (lowest opinion are picked first)
+# When choosing a county, order based on county opinion (highest opinion are picked first)
 
 act_steward_automatic_task_promote_culture = {
 
@@ -107,12 +107,17 @@ act_steward_automatic_task_promote_culture = {
 
 		if = {
 			limit = { exists = scope:target_county }
-			cp:councillor_steward = {
-				set_council_task = {
-					task_type = task_promote_culture
-					target = scope:target_county.title_province
-				}
+			scope:councillor = {
+				# Have to use an event because setting a new task in the cancel task crashes the game, bruh
+				trigger_event = act_steward_automation.0001
 			}
 		}
+	}
+}
+
+act_steward_automatic_task_promote_culture_start = {
+	set_council_task = {
+		task_type = task_promote_culture
+		target = scope:target_county.title_province
 	}
 }

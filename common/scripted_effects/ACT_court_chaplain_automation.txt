@@ -6,9 +6,9 @@
 # 4. Sub-vassals Capitals
 # 5. Any remaining counties.
 
-# When choosing a county, order based on county opinion (lowest opinion are picked first)
+# When choosing a county, order based on county opinion (highest opinion are picked first)
 
-act_chaplain_automatic_task_conversion = {
+act_court_chaplain_automatic_task_conversion = {
 	scope:councillor_liege = {
 		# 1. Liege Capital
 		if = {
@@ -106,14 +106,14 @@ act_chaplain_automatic_task_conversion = {
 		if = {
 			limit = { exists = scope:target_county }
 			scope:councillor = {
-				# have to use an event because otherwise setting new convert task doesn't work?
-				trigger_event = act_chaplain_automation.0001
+				# Have to use an event because setting a new task in the cancel task crashes the game, bruh
+				trigger_event = act_court_chaplain_automation.0001
 			}
 		}
 	}
 }
 
-act_chaplain_automatic_task_conversion_start = {
+act_court_chaplain_automatic_task_conversion_start = {
 	set_council_task = {
 		task_type = task_conversion
 		target = scope:target_county.title_province
