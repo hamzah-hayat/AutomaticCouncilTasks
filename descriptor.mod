@@ -3,5 +3,5 @@ tags={
 	"Gameplay"
 	"Utilities"
 }
-name="AutomaticCouncilTasks"
+name="Automatic Council Tasks"
 supported_version="1.16.*"

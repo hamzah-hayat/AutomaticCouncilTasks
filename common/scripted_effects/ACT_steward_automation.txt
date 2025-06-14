@@ -72,19 +72,21 @@ act_steward_automatic_task_promote_culture = {
 		# 4. Sub-vassal Capitals
 		if = {
 			limit = { NOT = { exists = scope:target_county } }
-			every_vassal_or_below = {
-				alternative_limit = {
-					exists = capital_county
-					capital_county = { act_is_potential_county_for_promote_culture = yes }
-					highest_held_title_tier = tier_duchy
-				}
-				alternative_limit = {
-					exists = capital_county
-					capital_county = { act_is_potential_county_for_promote_culture = yes }
-					highest_held_title_tier = tier_county
-				}
-				capital_county = {
-					add_to_temporary_list = possible_counties
+			every_vassal = {
+				every_vassal_or_below = {
+					limit = {
+						exists = capital_county
+						capital_county = { act_is_potential_county_for_promote_culture = yes }
+						highest_held_title_tier = tier_duchy
+					}
+					alternative_limit = {
+						exists = capital_county
+						capital_county = { act_is_potential_county_for_promote_culture = yes }
+						highest_held_title_tier = tier_county
+					}
+					capital_county = {
+						add_to_temporary_list = possible_counties
+					}
 				}
 			}
 			ordered_in_list = {
@@ -99,6 +101,7 @@ act_steward_automatic_task_promote_culture = {
 		if = {
 			limit = { NOT = { exists = scope:target_county } }
 			ordered_sub_realm_county = {
+				limit = { act_is_potential_county_for_promote_culture = yes }
 				order_by = county_opinion
 				position = 0
 				save_scope_as = target_county
