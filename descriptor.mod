@@ -4,4 +4,4 @@ tags={
 	"Utilities"
 }
 name="Automatic Council Tasks"
-supported_version="1.16.*"
+supported_version="1.18.*"
