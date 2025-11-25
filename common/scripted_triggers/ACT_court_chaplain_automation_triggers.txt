@@ -1,7 +1,22 @@
-﻿# Same as potential county for convert task, just stripped out AI parts and simplified a bit
+﻿# Same as potential county for convert task, just stripped out AI parts and simplified a bit by removing the custom tooltips/descriptions
 act_is_potential_county_for_conversion = {
-	NOT = { faith = scope:councillor.faith }
-	NOT = { faith = scope:councillor_liege.var:hold_court_8120_religion_block }
+	is_landless_type_title = no
+
+	#China changes the faith to the Huangdi's faith
+	trigger_if = {
+		limit = {
+			scope:councillor_liege = {
+				highest_held_title_tier >= tier_hegemony
+				government_has_flag = government_has_merit
+			}
+		}
+		faith != scope:councillor_liege.faith
+	}
+	#Otherwise it's councillor's faith
+	trigger_else = { faith != scope:councillor.faith }
+
+	# Liege has religion block for this faith
+	faith != scope:councillor_liege.var:hold_court_8120_religion_block
 
 	NAND = { # Vassal Contract forbids meddling by liege
 		exists = holder.liege
@@ -10,44 +25,33 @@ act_is_potential_county_for_conversion = {
 				AND = {
 					liege = scope:councillor_liege
 					is_ruler = yes
-					is_independent_ruler = no
+					top_liege != this
 					vassal_contract_has_flag = religiously_protected
 				}
 				any_liege_or_above = {
-					exists = liege
-					liege = scope:councillor_liege
+					liege ?= scope:councillor_liege
 					is_ruler = yes
-					is_independent_ruler = no
+					top_liege != this
 					vassal_contract_has_flag = religiously_protected
 				}
 			}
 		}
 	}
 
+	# Liege has promised to not convert this county
 	NOR = {
 		has_variable = cannot_be_converted_by_value
 		var:cannot_be_converted_by_value = scope:councillor_liege	
 	}
-	
+
 	# Struggle phases may sometimes restrict targets for involved characters.
-	trigger_if = {
-		# Give an exception for pre-existing conversions: these can take a while and it's not fair to lose years or decades of progress to a phase change.
-		limit = {
-			NOT = {
-				scope:county = { is_target_of_council_task = task_conversion }
-			}
-		}
-		NOT = {
-			scope:councillor_liege = {
-				custom_tooltip = {
-					text = task_conversion.tt.forbidden.due_to_struggle_phase
-					any_character_struggle = {
-						involvement = involved
-						is_struggle_parameter_active_secondary_county_trigger = {
-							PARAMETER = county_conversion_disabled_for_involved_faiths_within_region
-							COUNTY = scope:county
-						}
-					}
+	NOT = {
+		scope:councillor_liege = {
+			any_character_struggle = {
+				involvement = involved
+				is_struggle_parameter_active_secondary_county_trigger = {
+					PARAMETER = county_conversion_disabled_for_involved_faiths_within_region
+					COUNTY = scope:county
 				}
 			}
 		}

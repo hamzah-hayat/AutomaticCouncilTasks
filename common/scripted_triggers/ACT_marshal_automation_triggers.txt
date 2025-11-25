@@ -1,5 +1,7 @@
 ﻿# Same as potential_county trigger in task_increase_control for marshal
 act_is_potential_county_for_increase_control = {
+	is_landless_type_title = no
+	
 	OR = {
 		has_county_corruption_trigger = yes
 		county_control < full_county_control
