@@ -29,7 +29,7 @@ act_marshal_automatic_task_increase_control = {
 				limit = {
 					county = { act_is_potential_county_for_increase_control = yes }
 				}
-				order_by = control
+				order_by = county_control
 				position = 0
 
 				county = {
@@ -63,7 +63,7 @@ act_marshal_automatic_task_increase_control = {
 			}
 			ordered_in_list = {
 				list = possible_counties
-				order_by = control
+				order_by = county_control
 				position = 0
 				save_scope_as = target_county
 			}
@@ -91,7 +91,7 @@ act_marshal_automatic_task_increase_control = {
 			}
 			ordered_in_list = {
 				list = possible_counties
-				order_by = control
+				order_by = county_control
 				position = 0
 				save_scope_as = target_county
 			}
@@ -102,7 +102,7 @@ act_marshal_automatic_task_increase_control = {
 			limit = { NOT = { exists = scope:target_county } }
 			ordered_sub_realm_county = {
 				limit = { act_is_potential_county_for_increase_control = yes }
-				order_by = control
+				order_by = county_control
 				position = 0
 				save_scope_as = target_county
 			}
