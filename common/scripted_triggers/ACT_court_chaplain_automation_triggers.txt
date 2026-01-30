@@ -16,7 +16,15 @@ act_is_potential_county_for_conversion = {
 	trigger_else = { faith != scope:councillor.faith }
 
 	# Liege has religion block for this faith
-	faith != scope:councillor_liege.var:hold_court_8120_religion_block
+	trigger_if = {
+		limit = {
+			scope:councillor_liege = {
+				is_alive = yes
+				has_variable = hold_court_8120_religion_block
+			}
+		}
+		faith != scope:councillor_liege.var:hold_court_8120_religion_block
+	}
 
 	NAND = { # Vassal Contract forbids meddling by liege
 		exists = holder.liege
@@ -39,19 +47,38 @@ act_is_potential_county_for_conversion = {
 	}
 
 	# Liege has promised to not convert this county
-	NOR = {
-		has_variable = cannot_be_converted_by_value
-		var:cannot_be_converted_by_value = scope:councillor_liege	
+	trigger_if = {
+		limit = {	
+			AND = {
+				has_variable = cannot_be_converted_by_value
+				var:cannot_be_converted_by_value = scope:councillor_liege		
+			}
+		}
+		NOR = {
+			has_variable = cannot_be_converted_by_value
+			var:cannot_be_converted_by_value = scope:councillor_liege	
+		}
 	}
 
 	# Struggle phases may sometimes restrict targets for involved characters.
-	NOT = {
-		scope:councillor_liege = {
-			any_character_struggle = {
-				involvement = involved
-				is_struggle_parameter_active_secondary_county_trigger = {
-					PARAMETER = county_conversion_disabled_for_involved_faiths_within_region
-					COUNTY = scope:county
+	trigger_if = {
+		# Give an exception for pre-existing conversions: these can take a while and it's not fair to lose years or decades of progress to a phase change.
+		limit = {
+			NOT = {
+				is_target_of_council_task = task_conversion
+			}
+		}
+		NOT = {
+			scope:councillor_liege = {
+				custom_tooltip = {
+					text = task_conversion.tt.forbidden.due_to_struggle_phase
+					any_character_struggle = {
+						involvement = involved
+						is_struggle_parameter_active_secondary_county_trigger = {
+							PARAMETER = county_conversion_disabled_for_involved_faiths_within_region
+							COUNTY = this
+						}
+					}
 				}
 			}
 		}

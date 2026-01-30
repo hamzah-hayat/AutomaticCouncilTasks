@@ -29,7 +29,7 @@ act_steward_automatic_task_promote_culture = {
 				limit = {
 					county = { act_is_potential_county_for_promote_culture = yes }
 				}
-				order_by = county_opinion
+				order_by = county.county_opinion
 				position = 0
 
 				county = {
@@ -43,6 +43,11 @@ act_steward_automatic_task_promote_culture = {
 			limit = {NOT = { exists = scope:target_county } }
 			every_vassal = {
 				limit = {
+					exists = capital_county
+					capital_county = { act_is_potential_county_for_promote_culture = yes }
+					highest_held_title_tier = tier_empire
+				}
+				alternative_limit = {
 					exists = capital_county
 					capital_county = { act_is_potential_county_for_promote_culture = yes }
 					highest_held_title_tier = tier_kingdom
@@ -75,6 +80,11 @@ act_steward_automatic_task_promote_culture = {
 			every_vassal = {
 				every_vassal_or_below = {
 					limit = {
+						exists = capital_county
+						capital_county = { act_is_potential_county_for_promote_culture = yes }
+						highest_held_title_tier = tier_kingdom
+					}		
+					alternative_limit = {
 						exists = capital_county
 						capital_county = { act_is_potential_county_for_promote_culture = yes }
 						highest_held_title_tier = tier_duchy
